@@ -18,59 +18,53 @@ public class LoadingDemo {
 	private NotaCompraService service;
 	
 	@Test
-	public void demoEagerLoading() {
+	public void demoEdgerLoading() {
 		try {
-			NotaCompraItem item = service.buscarNotaCompraItemPeloId((long) 1);
-			
+			NotaCompraItem item = service.buscarNotaCompraItemPeloId(1L);
 			LocalDate dataEmissao = item.getNotaCompra().getDataEmissao();
 			
+			String descricao = item.getProduto().getDescricao();
+			
+			String razaoSocial = item.getNotaCompra().getFornecedor().getRazaoSocial();
+			
+			System.out.println(razaoSocial);
+			System.out.println(descricao);
 			System.out.println(dataEmissao);
+			System.out.println("Aconteceu carregamento EAGER");
 			
-			System.out.println("Aconteceu carregamento Eager"); // Acontece para relacionamentos quando o oposto é 1
-			
-			
-		}catch (Exception e){
+		}catch(Exception e) {
 			e.printStackTrace();
-			
 		}
 	}
 	
 	@Test
 	public void demoLazyLoading() {
 		try {
-			NotaCompra nota = service.buscarNotaCompraPeloId((long) 1);
+			NotaCompra nota = service.buscarNotaCompraPeloId(1L);
 			
-			List<NotaCompraItem> listaNotaCompraItem = nota.getListaNotaCompraItem();
-			int numeroItens = listaNotaCompraItem.size();
+			List<NotaCompraItem> listaDeitem = nota.getListaNotaCompraItem();
 			
-			System.out.println(numeroItens);
+			int tamanho = listaDeitem.size();
 			
-			 // Acontece para relacionamentos quando o oposto é * (many
-			// Cria uma proxy dos muitos objetos relacionados com a nota
+			System.out.println(tamanho);
 			
-		}catch (Exception e){
-			System.out.println("Ocorreu o LAZY loading, como a lista é uma proxy não há size");
+		}catch(Exception e) {
 			e.printStackTrace();
-			
 		}
 	}
 	
 	@Test
 	public void demoPlanejandoConsulta() {
 		try {
-			NotaCompra nota = service.buscarNotaCompraItemPeloIdComListaItem((long) 1);
+			NotaCompra nota = service.buscarNotaCompraPeloIdComListaItem(1L);
 			
-			List<NotaCompraItem> listaNotaCompraItem = nota.getListaNotaCompraItem();
-			int numeroItens = listaNotaCompraItem.size();
+			int tamanho = nota.getListaNotaCompraItem().size();
 			
-			System.out.println(numeroItens);
+			System.out.println(tamanho);
 			
-			// Consegue retornar o size pois foi forçado o carregamento dos objetos com o .size() na service
-			
-		}catch (Exception e){
-			System.out.println("Ocorreu o LAZY loading, como a lista é uma proxy não há size");
+		}catch(Exception e) {
 			e.printStackTrace();
-			
 		}
 	}
+	
 }

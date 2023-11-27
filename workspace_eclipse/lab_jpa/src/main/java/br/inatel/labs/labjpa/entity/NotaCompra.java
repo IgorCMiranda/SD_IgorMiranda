@@ -21,36 +21,33 @@ public class NotaCompra {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@OneToMany(mappedBy = "notaCompra")
+	private List<NotaCompraItem> listaNotaCompraItem;
+	
+	@ManyToOne
+	private Fornecedor fornecedor;
+	
 	@NotNull
 	@Past
 	private LocalDate dataEmissao;
 	
-	@ManyToOne
-	private Fornecedor fornecedor;
-
-	@OneToMany(mappedBy = "notaCompra")
-	private List<NotaCompraItem> listaNotaCompraItem;
-	
-	
-	
-	public NotaCompra(@NotNull @Past LocalDate dataEmissao, Fornecedor fornecedor) {
-		super();
-		this.dataEmissao = dataEmissao;
-		this.fornecedor = fornecedor;
-	}
-
 	public NotaCompra() {
 		super();
 	}
+	
+	public NotaCompra(LocalDate dataEmissao, Fornecedor fornecedor) {
+		super();
+		this.fornecedor = fornecedor;
+		this.dataEmissao = dataEmissao;
+	}
 
 	public BigDecimal getCalculoTotalNota() {
-		   BigDecimal total = this.listaNotaCompraItem.stream()
-		      .map( i -> i.getCalculoTotalItem() )
-		      .reduce( BigDecimal.ZERO, BigDecimal::add );
+		BigDecimal total = this.listaNotaCompraItem.stream()
+				.map(i -> i.getCalculoTotalItem())
+				.reduce( BigDecimal.ZERO, BigDecimal::add);
+		return total;
+	}
 
-		   return total;
-		}
-	 
 	public Long getId() {
 		return id;
 	}
@@ -67,14 +64,6 @@ public class NotaCompra {
 		this.listaNotaCompraItem = listaNotaCompraItem;
 	}
 
-	public LocalDate getDataEmissao() {
-		return dataEmissao;
-	}
-
-	public void setDataEmissao(LocalDate dataEmissao) {
-		this.dataEmissao = dataEmissao;
-	}
-
 	public Fornecedor getFornecedor() {
 		return fornecedor;
 	}
@@ -82,10 +71,13 @@ public class NotaCompra {
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
 	}
-	
-	@Override
-	public String toString() {
-		return "NotaCompra [id=" + id + ", dataEmissao=" + dataEmissao + "]";
+
+	public LocalDate getDataEmissao() {
+		return dataEmissao;
+	}
+
+	public void setDataEmissao(LocalDate dataEmissao) {
+		this.dataEmissao = dataEmissao;
 	}
 
 	@Override
@@ -103,6 +95,11 @@ public class NotaCompra {
 			return false;
 		NotaCompra other = (NotaCompra) obj;
 		return Objects.equals(id, other.id);
+	}
+
+	@Override
+	public String toString() {
+		return "NotaCompra [id=" + id + ", fornecedor=" + fornecedor + ", dataEmissao=" + dataEmissao + "]";
 	}
 	
 }
