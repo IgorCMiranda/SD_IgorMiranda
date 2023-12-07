@@ -7,12 +7,14 @@ import org.springframework.web.reactive.function.client.WebClient;
 import br.inatel.labs.labrest.client.model.dto.ProdutoDTO;
 
 public class WebClientPutProduto {
-	public static void main(String[] args) {
-		ProdutoDTO produtoExistente = new ProdutoDTO();
-		produtoExistente.setId( 1L );
-		produtoExistente.setDescricao("Furadeira a bateria");
+	
+	public static void main(String[]args) {
 		
-		ResponseEntity<Void> responseEntity = WebClient.create("http:localhost:8080")
+		ProdutoDTO produtoExistente = new ProdutoDTO();
+		produtoExistente.setId(1L);
+		produtoExistente.setDescricao("Furadeira");
+		
+		ResponseEntity<Void> responseEntity = WebClient.create("http://localhost:8080")
 				.put()
 				.uri("/produto")
 				.bodyValue(produtoExistente)
@@ -22,7 +24,7 @@ public class WebClientPutProduto {
 		
 		HttpStatusCode statusCode = responseEntity.getStatusCode();
 		
-		System.out.println("Produto Atualizado");
-		System.out.println("Status da Resposta: " + statusCode);
+		System.out.println("Produto atualizado: ");
+		System.out.println("Status da resposta: " + statusCode);
 	}
 }

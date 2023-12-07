@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 public class ProdutoDTO {
-
+	
 	private Long id;
 	
 	private String descricao;
@@ -37,7 +37,7 @@ public class ProdutoDTO {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(descricao, id, preco);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -49,8 +49,7 @@ public class ProdutoDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		ProdutoDTO other = (ProdutoDTO) obj;
-		return Objects.equals(descricao, other.descricao) && Objects.equals(id, other.id)
-				&& Objects.equals(preco, other.preco);
+		return Objects.equals(id, other.id);
 	}
 
 	@Override

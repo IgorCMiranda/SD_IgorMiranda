@@ -16,55 +16,51 @@ public class Produto {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private long id;
+	
+	@NotNull
+	@Size(min = 2, max = 100)
+	private String descricao;
 	
 	@ManyToMany(mappedBy = "listaProduto")
 	private List<Fornecedor> listaFornecedor;
-	
-	@NotNull
-	@Size(min = 2, max = 200)
-	private String descricao;
-	
-	
 
 	public Produto() {
 		super();
 	}
-
-	public Produto(@NotNull @Size(min = 2, max = 200) String descricao) {
+	public Produto(@NotNull @Size(min = 2, max = 100) String descricao) {
 		super();
 		this.descricao = descricao;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
-
-	public List<Fornecedor> getListaFornecedor() {
-		return listaFornecedor;
-	}
-
-	public void setListaFornecedor(List<Fornecedor> listaFornecedor) {
-		this.listaFornecedor = listaFornecedor;
-	}
-
 	public String getDescricao() {
 		return descricao;
 	}
-
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-
+	public List<Fornecedor> getListaFornecedor() {
+		return listaFornecedor;
+	}
+	public void setListaFornecedor(List<Fornecedor> listaFornecedor) {
+		this.listaFornecedor = listaFornecedor;
+	}
+	
+	@Override
+	public String toString() {
+		return "Produto [id=" + id + ", descricao=" + descricao + "]";
+	}
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -74,12 +70,7 @@ public class Produto {
 		if (getClass() != obj.getClass())
 			return false;
 		Produto other = (Produto) obj;
-		return Objects.equals(id, other.id);
-	}
-
-	@Override
-	public String toString() {
-		return "Produto [id=" + id + ", descricao=" + descricao + "]";
+		return id == other.id;
 	}
 	
 }
